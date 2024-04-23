@@ -23,6 +23,10 @@ class Offer
     #[ORM\Column]
     private ?int $plan = null;
 
+    #[ORM\ManyToOne(inversedBy: 'offer_id')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ticket $tickets = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +64,18 @@ class Offer
     public function setPlan(int $plan): static
     {
         $this->plan = $plan;
+
+        return $this;
+    }
+
+    public function getTickets(): ?Ticket
+    {
+        return $this->tickets;
+    }
+
+    public function setTickets(?Ticket $tickets): static
+    {
+        $this->tickets = $tickets;
 
         return $this;
     }
