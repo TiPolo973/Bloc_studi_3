@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\UserType;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,9 +28,23 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/detail',name: 'detail')]
-    public function detail():Response
+
+    #[Route('/inscription', name: 'inscription')]
+    public function inscription():Response
     {
-        return $this->render('user/test.html.twig');
+        //on crée un nouvel utilisateur
+        $user = new User();
+
+        //on crée le formulaire
+        $form = $this->createForm(UserType::class, $user);
+
+
+        // return $this->render('user/adduser.html.twig',[
+        //     'form' => $userform->createView()
+        // ]);
+        return $this->render('user/adduser.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
+
 }
