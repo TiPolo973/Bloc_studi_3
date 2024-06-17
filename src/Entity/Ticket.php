@@ -23,22 +23,25 @@ class Ticket
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $uuid = null;
+    
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $createdAt;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 
-    /**
-     * @var Collection<int, Offer>
-     */
     #[ORM\OneToMany(targetEntity: Offer::class, mappedBy: 'tickets')]
     private Collection $offer_id;
 
     public function __construct()
     {
         $this->offer_id = new ArrayCollection();
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -70,18 +73,6 @@ class Ticket
         return $this;
     }
 
-    public function getUuid(): ?Uuid
-    {
-        return $this->uuid;
-    }
-
-    public function setUuid(Uuid $uuid): static
-    {
-        $this->uuid = $uuid;
-
-        return $this;
-    }
-
     public function getUserId(): ?User
     {
         return $this->user_id;
@@ -90,6 +81,30 @@ class Ticket
     public function setUserId(?User $user_id): static
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): \DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

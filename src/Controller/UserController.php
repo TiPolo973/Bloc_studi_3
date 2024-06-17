@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Form\UserType;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,21 +32,27 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/inscription', name: 'inscription')]
-    public function inscription():Response
+    #[Route('/inscription', name: 'inscription', methods:['GET','POST'])]
+    public function inscription(Request $request, EntityManagerInterface  $em ):Response
     {
         //on crée un nouvel utilisateur
         $user = new User();
 
         //on crée le formulaire
-        $form = $this->createForm(UserType::class, $user);
+        $userform = $this->createForm(UserType::class, $user);
+
+        //Vérifie la request
+        $userform->handleRequest($request);
 
 
-        // return $this->render('user/adduser.html.twig',[
-        //     'form' => $userform->createView()
-        // ]);
+        if ($userform->isSubmitted() && $userform->isValid()){
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('user/index.html.twig',[],Response::HTTP_SEE_OTHER);
+        }
         return $this->render('user/adduser.html.twig', [
-            'form' => $form->createView(),
+            'userform' => $userform->createView(),
         ]);
     }
 
