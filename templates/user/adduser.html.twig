@@ -1,6 +1,14 @@
 {% extends 'base.html.twig' %}
 
-        {% block body %}
-        <p>Formulaire d'inscription : </p>
-        {% include 'form/_formuser.html.twig' %}
-        {% endblock %}
+{% block body %}
+	{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }}">
+				<p>{{ message }}</p>
+			</div>
+		{% endfor %}
+	{% endfor %}
+	<p>Formulaire d'inscription :
+	</p>
+	{% include 'form/_formuser.html.twig' %}
+{% endblock %}
