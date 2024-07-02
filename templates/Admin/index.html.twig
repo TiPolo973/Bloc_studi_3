@@ -1,0 +1,12 @@
+{# templates/admin/listuser.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace administrateur{% endblock %}
+
+{% block body %}
+{% include 'Message/addflash.html.twig' %}
+    <h1>Bienvenue sur la page administrateurs</h1>
+
+    <p><a href={{ path('adminlist') }} >Affichez la liste des utilisateurs.</a></p>
+{% endblock %}
