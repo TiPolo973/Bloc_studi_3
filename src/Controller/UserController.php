@@ -74,47 +74,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/register', name: 'register', methods: ['GET', 'POST'])]
-    public function register(Request $request, EntityManagerInterface $em): Response
-    {
-        // On crée un nouvel utilisateur
-        $user = new User();
-
-        // On crée le formulaire
-        $userform = $this->createForm(UserType::class, $user);
-
-        // Vérifie la request
-        $userform->handleRequest($request);
-
-        $existingUser = $em->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
-
-        if ($existingUser) {
-            $this->addFlash('error', 'Cette adresse e-mail est déjà utilisée.');
-
-            return $this->render('user/adduser.html.twig', [
-                'userform' => $userform->createView(),
-            ]);
-        }
-
-        if ($userform->isSubmitted() && $userform->isValid()) {
-
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', 'Utilisateur ajouté avec succès.');
-
-            return $this->redirectToRoute('uservalidate',[
-                'id' => $user->getId(),
-            ]);
-
-        } elseif ($userform->isSubmitted()) {
-            $this->addFlash('error', 'Il y a des erreurs dans le formulaire. Veuillez les corriger.');
-        }
-
-        return $this->render('user/adduser.html.twig', [
-            'userform' => $userform->createView(),
-        ]);
-    }
 
     #[Route('/validate/{id}', name: 'validate')]
     public function validate(User $user): Response

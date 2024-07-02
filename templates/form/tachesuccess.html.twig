@@ -3,19 +3,13 @@
 {% block title %}Bienvenue{% endblock %}
 
 {% block body %}
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }}">
-                <p>{{ message }}</p>
-            </div>
-        {% endfor %}
-    {% endfor %}
+{% include 'Message/addflash.html.twig' %}
 
     <p> Bienvenue {{user.firstName}} sur notre site web.</p>
 
-    <p><a href={{ path('userregister') }} >Retourner au formulaire d'inscription.</a></p>
+    <p><a href={{ path('userinscription') }} >Retourner au formulaire d'inscription.</a></p>
 
-    <p><a href={{ path('userregister') }} >Aller à la page de connection.</a></p>
+    <p><a href={{ path('userinscription') }} >Aller à la page de connection.</a></p>
 
 
 
