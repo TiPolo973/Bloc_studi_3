@@ -21,7 +21,7 @@ class AdminController extends AbstractController
     }
 
 
-    #[Route('/list', name: 'list')]
+    #[Route('/list', name: '_list')]
     public function list(UserRepository $userRepository)
     {
         $users = $userRepository->findAll();
