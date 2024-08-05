@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-
+use App\Repository\UserRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[Route('/user', name: 'user')]
 class UserController extends AbstractController
@@ -18,22 +20,28 @@ class UserController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(): Response
     {
+
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
         ]);
     }
 
-    #[Route('/profil', name: 'profil')]
-    public function profil(): Response
+    #[Route('/profil/{id}', name: 'profil')]
+    public function profil(string $id, UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'La page profil',
+        
+        $user = $userRepository->find($id);
+        
+
+
+        return $this->render('user/profil.html.twig', [
+            'user' => $user,
         ]);
     }
 
 
     #[Route('/inscription', name: 'inscription', methods: ['GET', 'POST'])]
-    public function inscription(Request $request, EntityManagerInterface  $em): Response
+    public function inscription(Request $request, EntityManagerInterface  $em, UserPasswordHasherInterface $encoder): Response
     {
         //on crée un nouvel utilisateur
         $user = new User();
@@ -53,9 +61,9 @@ class UserController extends AbstractController
         }
 
         if ($userform->isSubmitted()) {
-
-           
             if ($userform->isValid()) {
+                $hash = $encoder->hashPassword($user, $user->getPassword());
+                $user->setPassword($hash);
                 $em->persist($user);
                 $em->flush();
 

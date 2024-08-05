@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/admin', name:'admin')]
@@ -37,7 +38,7 @@ class AdminController extends AbstractController
             $em->remove($user);
             $em->flush();
 
-            $this->addFlash('succes', 'lutilisateur à bien été éffacer');
+            $this->addFlash('succes', "l'utilisateur à bien été effacé");
 
         return $this->redirectToRoute('adminaccueil');
     }

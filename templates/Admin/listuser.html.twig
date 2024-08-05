@@ -17,8 +17,6 @@
 				{{ user.firstName }}</p>
 			<p>Nom :
 				{{ user.lastName }}</p>
-			<p>mots de passe :
-				{{ user.password }}</p>
             {# <p>Roles :
 				{{ user.Roles }}</p> #}
             <form method="post" action="{{ path('admin_delete_user', {'id': user.id}) }}">

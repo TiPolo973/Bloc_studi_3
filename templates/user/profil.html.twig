@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+	<h1>
+		Mon compte</h1>
+
+	<ul>
+		<li>Nom : {{user.firstname}}</li>
+        <li>prenom : {{user.lastname}}</li>
+        {# <li>Nom : {{user.ticket}}</li> #}
+        <li>email : {{user.email}}</li>
+	</ul>
+
+{% endblock %}
