@@ -17,6 +17,10 @@ class Offer
     #[ORM\Column(length: 255)]
     private ?string $location = null;
 
+    
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_time = null;
 
@@ -46,6 +50,18 @@ class Offer
     public function setLocation(string $location): static
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string 
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }
