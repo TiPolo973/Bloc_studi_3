@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\OfferType;
+use App\Form\TicketType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,5 +43,34 @@ class AdminController extends AbstractController
             $this->addFlash('succes', "l'utilisateur à bien été effacé");
 
         return $this->redirectToRoute('adminaccueil');
+    }
+
+    #[Route('/ticket', name:'_ticket')]
+    public function ticket(Request $request, EntityManagerInterface  $em,){
+
+
+        $ticketform =  $this->createForm(TicketType::class);
+
+        $ticketform->handleRequest($request);
+        
+
+
+        return $this->render('Admin/formticket.html.twig', [
+            'ticketform'=> $ticketform,
+        ]);
+    }
+    #[Route('/offer', name:'_offer')]
+    public function offer(Request $request, EntityManagerInterface  $em,){
+
+
+        $offerform =  $this->createForm(OfferType::class);
+
+        $offerform->handleRequest($request);
+        
+
+
+        return $this->render('Admin/formoffer.html.twig', [
+            'offerform'=> $offerform,
+        ]);
     }
 }

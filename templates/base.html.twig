@@ -31,6 +31,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('adminaccueil') }}">espace admin</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_ticket') }}">création de tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_offer') }}">création de festival</a>
+                </li>
                 {% endif %}
                 {% if not app.user %}
                 <li class="nav-item">
