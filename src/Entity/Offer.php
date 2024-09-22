@@ -23,11 +23,11 @@ class Offer
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_time = null;
-
-    #[ORM\Column]
-    private ?int $plan = null;
 
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Ticket::class)]
     private Collection $tickets;
@@ -86,18 +86,6 @@ class Offer
         return $this;
     }
 
-    public function getPlan(): ?int
-    {
-        return $this->plan;
-    }
-
-    public function setPlan(int $plan): static
-    {
-        $this->plan = $plan;
-
-        return $this;
-    }
-
     public function getTickets(): Collection
     {
         return $this->tickets;
@@ -144,6 +132,18 @@ class Offer
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

@@ -77,7 +77,7 @@
 				<div>
 					<p>Les offres disponibles ci-dessous</p>
 					{% for festival in festival %}
-						<a href="{{ path('_client', {'id': festival.id}) }}">
+						<a href="{{ path('_client') }}">
 							{{ festival.title }}</a><br/>
 					{% endfor %}
 				</div>

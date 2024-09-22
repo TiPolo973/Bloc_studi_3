@@ -22,9 +22,11 @@ class Ticket
     #[ORM\Column]
     private ?int $quantity = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    #[ORM\Column]
+    private ?string $plan = '';
 
+    #[ORM\Column]
+    private ?string $QRcode = '';
     
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
@@ -73,14 +75,27 @@ class Ticket
         return $this;
     }
 
-    public function getDescription(): ?string
+
+    public function getPlan(): ?string
     {
-        return $this->description;
+        return  $this->plan;
     }
 
-    public function setDescription(string $description): static
+    public function setPlan(string $plan)
     {
-        $this->description = $description;
+        $this->plan = $plan;
+
+        return $this;
+    }
+
+    public function getQrcode(): ?string
+    {
+        return  $this->QRcode;
+    }
+
+    public function setQrcode(string $QRcode)
+    {
+        $this->QRcode = $QRcode;
 
         return $this;
     }
