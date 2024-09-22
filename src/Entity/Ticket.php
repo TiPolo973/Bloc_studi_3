@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\TicketRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +19,9 @@ class Ticket
     #[ORM\Column]
     private ?int $price = null;
 
+    #[ORM\Column]
+    private ?int $quantity = null;
+
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
@@ -31,15 +33,13 @@ class Ticket
     private \DateTimeImmutable $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tickets')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 
-    #[ORM\OneToMany(targetEntity: Offer::class, mappedBy: 'tickets')]
-    private Collection $offer_id;
+    #[ORM\ManyToOne(targetEntity: Offer::class, inversedBy: 'tickets')]
+    private ?Offer $offer_id;
 
     public function __construct()
     {
-        $this->offer_id = new ArrayCollection();
         $this->updatedAt = new \DateTimeImmutable();
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -57,6 +57,18 @@ class Ticket
     public function setPrice(int $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setquantity(int $quantity): static
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -109,32 +121,15 @@ class Ticket
         return $this;
     }
 
-    /**
-     * @return Collection<int, Offer>
-     */
-    public function getOfferId(): Collection
+  
+    public function getOfferId(): ?Offer
     {
         return $this->offer_id;
     }
 
-    public function addOfferId(Offer $offerId): static
+    public function setOffer(?Offer $offer): static
     {
-        if (!$this->offer_id->contains($offerId)) {
-            $this->offer_id->add($offerId);
-            $offerId->setTickets($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOfferId(Offer $offerId): static
-    {
-        if ($this->offer_id->removeElement($offerId)) {
-            // set the owning side to null (unless already changed)
-            if ($offerId->getTickets() === $this) {
-                $offerId->setTickets(null);
-            }
-        }
+        $this->offer_id = $offer;
 
         return $this;
     }

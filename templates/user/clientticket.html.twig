@@ -1,0 +1,17 @@
+{% extends 'base.html.twig'%}
+
+{% block body %}
+<h1>Tickets disponibles pour ce festival</h1>
+
+{% if tickets is not empty %}
+    <ul>
+    {% for ticket in tickets %}
+        <li>{{ ticket.description }} - {{ ticket.price }}€</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun ticket disponible pour ce festival.</p>
+{% endif %}
+
+
+{% endblock %}

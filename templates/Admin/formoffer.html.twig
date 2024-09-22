@@ -1,4 +1,6 @@
-{% block body %}
+{% extends 'base.html.twig' %}
 
+{% block body %}
+{% include 'Message/addflash.html.twig' %}
 {{form(offerform)}}
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+Liste des tickets disponible:
+<br/>
+{% for tickets in ticket %}
+    {{ loop.index }}. titre: {{ ticket.description }} <br>
+    <form method='post' action="{{path('admin_add_ticket ', {'id':user.id})}}" >
+    <button>acheter ce ticket</button>
+    </form>
+    <p>------------------------------</p>
+
+{% endfor %}
+
+
+{% endblock %}

@@ -3,9 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Offer;
-use App\Entity\Ticket;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +13,8 @@ class OfferType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('location')
             ->add('title')
+            ->add('location')
             ->add('date_time', null, [
                 'widget' => 'single_text',
             ])
@@ -26,10 +25,7 @@ class OfferType extends AbstractType
             ->add('updatedAt', null, [
                 'widget' => 'single_text',
             ])
-            ->add('tickets', EntityType::class, [
-                'class' => Ticket::class,
-                'choice_label' => 'id',
-            ])
+            ->add('send', SubmitType::class)
         ;
     }
 

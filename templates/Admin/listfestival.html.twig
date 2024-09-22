@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+Liste des festival disponible:
+<br/>
+{% for offer in Abcd %}
+    {{ loop.index }}. titre: {{ offer.title }}  lieu: {{ offer.location }}  plan: {{ offer.plan }}   <br>
+{% endfor %}
+
+
+{% endblock %}

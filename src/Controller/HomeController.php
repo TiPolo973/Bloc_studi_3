@@ -1,16 +1,33 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Offer;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Ticket;
+use Doctrine\ORM\Mapping\Id;
 
 class HomeController extends AbstractController {
     
 
-    #[Route('/', name:'index')]
-    public function number() {
-        $number = rand(0,100);
-        return $this->render('base.html.twig',['chat' => $number ]);
+    #[Route('/', name:'index', methods:['GET'])]
+    public function number(EntityManagerInterface $em) {
+      $festival = $em->getRepository(Offer::class)->findAll();
+
+      return $this->render('base.html.twig',[
+            'festival'=> $festival
+      ]);
+    }
+
+    #[Route('/achat/ticket',name:'_client',methods:['GET'])]
+    public function achat(EntityManagerInterface $em , int $id){
+        $tickets = $em->getRepository(Ticket::class)->findBy(['id'=>$id]);
+
+            return $this->render('user/clientticket.html.twig',[
+                'ticket' => $tickets,
+            ]);
+
     }
 
 

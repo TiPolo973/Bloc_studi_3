@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\OfferRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: OfferRepository::class)]
 class Offer
@@ -27,15 +29,21 @@ class Offer
     #[ORM\Column]
     private ?int $plan = null;
 
-    #[ORM\ManyToOne(inversedBy: 'offer_id')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Ticket $tickets = null;
+    #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Ticket::class)]
+    private Collection $tickets;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $updatedAt;
+
+    public function __construct()
+    {
+        $this->tickets = new ArrayCollection();
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -90,14 +98,28 @@ class Offer
         return $this;
     }
 
-    public function getTickets(): ?Ticket
+    public function getTickets(): Collection
     {
         return $this->tickets;
     }
 
-    public function setTickets(?Ticket $tickets): static
+    public function addTicket(Ticket $ticket): static
     {
-        $this->tickets = $tickets;
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+            $ticket->setOffer($this);
+        }
+
+        return $this;
+    }
+    public function removeTicket(Ticket $ticket): static
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            // Set the owning side to null (unless already changed)
+            if ($ticket->getOfferId() === $this) {
+                $ticket->setOffer(null);
+            }
+        }
 
         return $this;
     }
