@@ -126,10 +126,10 @@ class AdminController extends AbstractController
             ]);
         }
 
-        #[Route('/ticket/add{id}' ,name:'_add_ticket', methods:['GET'])]
-        Public function ticketadd(EntityManagerInterface $em , string $id ):Response
-        {
-            $user = $em->getRepository(User::class)->find($id);
+        // #[Route('/ticket/add{id}' ,name:'_add_ticket', methods:['GET'])]
+        // Public function ticketadd(EntityManagerInterface $em , string $id ):Response
+        // {
+        //     $user = $em->getRepository(User::class)->find($id);
 
-        }
+        // }
 }

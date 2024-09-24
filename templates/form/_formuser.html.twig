@@ -15,6 +15,9 @@
     {{form_row(userform.firstName)}}
     {{form_row(userform.lastName)}}
     </div>
+    {{form_row(userform.email)}}
+    {{form_row(userform.password)}}
+    {{form_errors(userform.password)}}
     {{form_rest(userform)}}
     {{ form_end(userform)}}
     </div>
