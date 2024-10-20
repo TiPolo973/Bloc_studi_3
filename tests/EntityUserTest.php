@@ -29,5 +29,19 @@ class EntityUserTest extends TestCase{
         $this->assertEquals($createAt, $user->getCreatedAt());
         $this->assertEquals($updateAt, $user->getUpdatedAt());
     }
+    public function testCreatedAtAndUpdatedAt()
+    {
+        $user = new User();
+        $now = new \DateTimeImmutable();
+    
+        $this->assertInstanceOf(\DateTimeImmutable::class, $user->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $user->getUpdatedAt());
+        $this->assertLessThan(1, $now->getTimestamp() - $user->getCreatedAt()->getTimestamp());
+        $this->assertLessThan(1, $now->getTimestamp() - $user->getUpdatedAt()->getTimestamp());
+    
+        $newUpdate = new \DateTimeImmutable('2024-12-31');
+        $user->setUpdatedAt($newUpdate);
+        $this->assertEquals($newUpdate, $user->getUpdatedAt());
+    }
     
 }
