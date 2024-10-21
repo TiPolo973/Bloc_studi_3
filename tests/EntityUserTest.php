@@ -2,6 +2,7 @@
 
 namespace App\Test;
 
+use App\Entity\Ticket;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
@@ -9,6 +10,7 @@ class EntityUserTest extends TestCase{
 
     public function testGetterSetter(){
         $user = new User();
+        $ticket = new Ticket();
         $updateAt = new \DateTimeImmutable('2024-10-19 19:00:00');
         $createAt = new \DateTimeImmutable('2024-10-19 20:00:00');
     
@@ -28,12 +30,26 @@ class EntityUserTest extends TestCase{
         $this->assertEquals('lastname', $user->getLastName()); 
         $this->assertEquals($createAt, $user->getCreatedAt());
         $this->assertEquals($updateAt, $user->getUpdatedAt());
+        $this->assertEquals('test@test.com', $user->getUserIdentifier());
+
+        $user->addTicket($ticket);
+        $this->assertCount(1, $user->getTickets());
+        $this->assertTrue($user->getTickets()->contains($ticket));
+ 
+        $user->removeTicket($ticket);
+        $this->assertCount(0, $user->getTickets());
+        $this->assertFalse($user->getTickets()->contains($ticket));
+        $this->assertEmpty($user->PreUpdate());
+        $this->assertEmpty($user->eraseCredentials());
+
+
     }
     public function testCreatedAtAndUpdatedAt()
     {
         $user = new User();
         $now = new \DateTimeImmutable();
     
+        
         $this->assertInstanceOf(\DateTimeImmutable::class, $user->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $user->getUpdatedAt());
         $this->assertLessThan(1, $now->getTimestamp() - $user->getCreatedAt()->getTimestamp());
