@@ -25,7 +25,7 @@ class HomeController extends AbstractController {
         $tickets = $em->getRepository(Ticket::class)->findAll();
 
             return $this->render('user/clientticket.html.twig',[
-                'ticket' => $tickets,
+                'tickets' => $tickets,
             ]);
 
     }

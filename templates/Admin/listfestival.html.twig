@@ -1,11 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+{% if offers is not empty %}
 Liste des festival disponible:
 <br/>
-{% for offer in Abcd %}
-    {{ loop.index }}. titre: {{ offer.title }}  lieu: {{ offer.location }}  plan: {{ offer.plan }}   <br>
+{% for offer in offers %}
+    {{ loop.index }}. Titre: {{ offer.title }}  Lieu: {{ offer.location }}  <br>
+    <p>--------------------------------------------</p>
 {% endfor %}
+{% else %}
+<p>Aucune offre n'est disponible.</p>
+{% endif %}
 
 
 {% endblock %}

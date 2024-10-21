@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+{% if tickets is not empty %}
 Liste des tickets disponible:
 <br/>
-{% for tickets in ticket %}
+{% for ticket in tickets %}
     {{ loop.index }}. titre: {{ ticket.description }} <br>
-    <form method='post' action="{{path('admin_add_ticket ', {'id':user.id})}}" >
+    {# <form method='post' action="{{path('admin_add_ticket ', {'id':user.id})}}" >
     <button>acheter ce ticket</button>
-    </form>
+    </form> #}
     <p>------------------------------</p>
 
 {% endfor %}
-
+{% else %}
+<p> Il n'y a pas de ticket dispo pour le moment</p>
+{% endif %}
 
 {% endblock %}

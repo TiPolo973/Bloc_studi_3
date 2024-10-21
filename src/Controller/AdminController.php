@@ -110,10 +110,10 @@ class AdminController extends AbstractController
 
     #[Route('/Offer/list',name:'_offer_list', methods:['GET'] )]
     public function offerlist(EntityManagerInterface $em){
-        $offer = $em->getRepository(Offer::class)->findAll();
+        $offers = $em->getRepository(Offer::class)->findAll();
 
             return $this->render('Admin/listfestival.html.twig',[
-                'Abcd' => $offer,
+                'offers' => $offers,
             ]);
         }
 
@@ -122,7 +122,7 @@ class AdminController extends AbstractController
             $tickets = $em->getRepository(Ticket::class)->findAll();
 
             return $this->render('Admin/listticket.html.twig',[
-                'ticket' => $tickets,
+                'tickets' => $tickets,
             ]);
         }
 
