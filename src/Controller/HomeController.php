@@ -22,7 +22,7 @@ class HomeController extends AbstractController {
 
     #[Route('/achat/ticket',name:'_client',methods:['GET'])]
     public function achat(EntityManagerInterface $em ){
-        $tickets = $em->getRepository(Ticket::class)->findAll();
+        $tickets = $em->getRepository(Ticket::class)->findBy(['user_id' => null]);
 
             return $this->render('user/clientticket.html.twig',[
                 'tickets' => $tickets,
