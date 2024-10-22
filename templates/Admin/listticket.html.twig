@@ -5,7 +5,7 @@
 Liste des tickets disponible:
 <br/>
 {% for ticket in tickets %}
-    {{ loop.index }}. titre: {{ ticket.description }} <br>
+    {{ loop.index }}.titre : {{ticket.offer.title}} quantiter:{{ticket.quantity}} prix: {{ ticket.price }}  <br>
     {# <form method='post' action="{{path('admin_add_ticket ', {'id':user.id})}}" >
     <button>acheter ce ticket</button>
     </form> #}

@@ -6,14 +6,11 @@
 {% if tickets is not empty %}
     <ul>
     {% for ticket in tickets %}
-        <li>{{ ticket.description }} - {{ ticket.price }}€ <a href='{{path('checkout_checkout_create')}}'>Acheter<a/></li>
+        <li>{{ ticket.offer.title }} - {{ ticket.price }}€ <form method='post' action="{{path('checkout_checkout_create', {'id':ticket.id})}}" ><button>acheter ce ticket</button></form></li>
     {% endfor %}
     </ul>
 {% else %}
     <p>Aucun ticket disponible pour ce festival.</p>
 {% endif %}
-
-
-
 
 {% endblock %}
