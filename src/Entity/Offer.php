@@ -104,7 +104,7 @@ class Offer
     {
         if ($this->tickets->removeElement($ticket)) {
             // Set the owning side to null (unless already changed)
-            if ($ticket->getOfferId() === $this) {
+            if ($ticket->getOffer() === $this) {
                 $ticket->setOffer(null);
             }
         }

@@ -23,10 +23,10 @@ class Ticket
     private ?int $quantity = null;
 
     #[ORM\Column]
-    private ?string $plan = '';
+    private ?string $plan = null;
 
     #[ORM\Column]
-    private ?string $QRcode = '';
+    private ?string $QRcode = null;
     
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
@@ -38,7 +38,7 @@ class Ticket
     private ?User $user_id = null;
 
     #[ORM\ManyToOne(targetEntity: Offer::class, inversedBy: 'tickets')]
-    private ?Offer $offer_id;
+    private ?Offer $offer;
 
     public function __construct()
     {
@@ -137,14 +137,14 @@ class Ticket
     }
 
   
-    public function getOfferId(): ?Offer
+    public function getOffer(): ?Offer
     {
-        return $this->offer_id;
+        return $this->offer;
     }
 
     public function setOffer(?Offer $offer): static
     {
-        $this->offer_id = $offer;
+        $this->offer = $offer;
 
         return $this;
     }
