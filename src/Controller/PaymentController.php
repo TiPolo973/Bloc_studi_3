@@ -14,13 +14,13 @@ use App\Entity\Ticket;
 class PaymentController extends AbstractController
 {
     #[Route('/', name: 'checkout_create')]
-    public function createCheckoutSession(Ticket $ticket): JsonResponse
+    public function createCheckoutSession()
     {
       
         Stripe::setApiKey($this->getParameter('stripe.secret_key'));
         Stripe::setApiVersion('2024-09-30.acacia');
 
-        $ticketId = $ticket->getId();
+        // $ticketId = $ticket->getId();
 
       
         $checkoutSession = Session::create([
@@ -36,14 +36,15 @@ class PaymentController extends AbstractController
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => $this->generateUrl('checkout_payment_success', [], true),
-            'cancel_url' => $this->generateUrl('checkout_payment_cancel', [], true),
-            'metadata' => [
-                'ticket_id' => $ticketId
-            ]
+            'success_url' => 'http://127.0.0.1:8000/create-checkout-session/payment/success',
+            'cancel_url' => 'http://127.0.0.1:8000/create-checkout-session/payment/cancel',
+            // 'metadata' => [
+            //     'ticket_id' => $ticketId
+            // ]
         ]);
 
-        return new JsonResponse(['id' => $checkoutSession->id]);
+        // dd($checkoutSession);
+        return $this->redirect($checkoutSession->url);
     }
 
     #[Route('/payment/success', name: 'payment_success')]
