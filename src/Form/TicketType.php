@@ -20,17 +20,17 @@ class TicketType extends AbstractType
             ->add('quantity')
             ->add('plan')
             ->add('QRcode')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
+            // ->add('createdAt', null, [
+            //     'widget' => 'single_text',
+            // ])
+            // ->add('updatedAt', null, [
+            //     'widget' => 'single_text',
+            // ])
             // ->add('user_id', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id',
             // ])
-            ->add('offer_id', EntityType::class, [
+            ->add('offer', EntityType::class, [
                 'class' => Offer::class,
                 'choice_label' => 'title',
             ])
