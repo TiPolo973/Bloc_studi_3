@@ -18,21 +18,31 @@ use Symfony\Component\HttpFoundation\Request;
 class PaymentController extends AbstractController
 {
     #[Route('/create-checkout-session/{id}', name: 'checkout_checkout_create')]
-    public function createCheckoutSession(Ticket $ticket): Response
+    public function createCheckoutSession(Ticket $ticket, Request $request): Response
     {
-
         Stripe::setApiKey($this->getParameter('stripe.secret_key'));
         Stripe::setApiVersion('2024-09-30.acacia');
 
+        $user = $this->getUser();
         $ticketId = $ticket->getId();
         $prixcentime = $ticket->getPrice() * 100;
         $offer = $ticket->getOffer();
+
+        $session = $request->getSession();
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+    
+        $uniqueKey = bin2hex(random_bytes(16));
+    
+        $session->set('payment_key', $uniqueKey);
         
+        
+        // dd($user);
         if (!$offer) {
             throw $this->createNotFoundException("Le ticket n'est associé à aucune offre.");
         }
         $offerTitle = $offer->getTitle();
-
         $checkoutSession = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
@@ -45,30 +55,44 @@ class PaymentController extends AbstractController
                 ],
                 'quantity' => $ticket->getQuantity(),
             ]],
+            'customer_email' => $user->getUserIdentifier(),
             'mode' => 'payment',
             'success_url' => $this->generateUrl('payment_success', ['id' => $ticketId], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
+            'metadata' => [
+            'payment_key' => $uniqueKey,
+        ],
         ]);
-        // dd($checkoutSession);
+        
+        // dd($uniqueKey);
         return $this->redirect($checkoutSession->url);
     }
 
     #[Route('/payment/success', name: 'payment_success')]
     public function paymentSuccess(Request $request, EntityManagerInterface $em)
     {
+        $session = $request->getSession();
+    if (!$session->isStarted()) {
+        $session->start();
+    }
+
+    $paymentKey = $session->get('payment_key');
+        
        $user = $this->getUser();
-
+       
        $ticketId = $request->query->get('id');
-
        $ticket = $em->getRepository(Ticket::class)->find($ticketId);
 
-       if ($ticket && $user) {
+        if ($ticket && $user && $paymentKey) {
         $ticket->setUserId($user);
         $em->persist($ticket);
         $em->flush();
     } else {
         throw $this->createNotFoundException("Une erreur s'est produite");
     }
+    
+    $session->remove('payment_key');
+       
 
         return $this->render('payment/success.html.twig');
     }
