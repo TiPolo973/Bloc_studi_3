@@ -84,7 +84,7 @@ class PaymentController extends AbstractController
        $ticket = $em->getRepository(Ticket::class)->find($ticketId);
 
         if ($ticket && $user && $paymentKey) {
-        $ticket->setUserId($user);
+        $ticket->setUser($user);
         $em->persist($ticket);
         $em->flush();
     } else {
