@@ -20,7 +20,7 @@ class EntityTicketTest extends TestCase{
             ->setQuantity(2)
             ->setPlan('deux')
             ->setQrcode('test')
-            ->setUserId($user)
+            ->setUser($user)
             ->setCreatedAt($createAt)
             ->setUpdatedAt($updateAt)
             ->setOffer($offer);
@@ -30,7 +30,7 @@ class EntityTicketTest extends TestCase{
         $this->assertEquals(2, $ticket->getQuantity());
         $this->assertEquals('deux', $ticket->getPlan());
         $this->assertEquals('test', $ticket->getQrcode());
-        $this->assertEquals($user, $ticket->getUserId());
+        $this->assertEquals($user, $ticket->getUser());
         $this->assertEquals($createAt, $ticket->getCreatedAt());
         $this->assertEquals($updateAt, $ticket->getUpdatedAt());
         $this->assertEquals($offer, $ticket->getOffer());
