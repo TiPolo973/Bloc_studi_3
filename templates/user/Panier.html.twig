@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mon Panier</h1>
+
+    {% if not user %}
+        <p>Veuillez vous connecter pour voir vos tickets.</p>
+    {% else %}
+    <p>Vos tickets ci dessous</p>
+        {% if tickets is not empty %}
+            <ul>
+                {% for ticket in tickets %}
+                    <li>{{ ticket.offer.title }} - {{ ticket.price }}€</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Vous n'avez pas encore de tickets.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}
