@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $updatedAt;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'user_id', orphanRemoval: false)]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'user', orphanRemoval: false)]
     private Collection $tickets;
 
     public function __construct()
@@ -170,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tickets->contains($ticket)) {
             $this->tickets->add($ticket);
-            $ticket->setUserId($this);
+            $ticket->setUser($this);
         }
 
         return $this;
@@ -180,8 +180,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->tickets->removeElement($ticket)) {
             // set the owning side to null (unless already changed)
-            if ($ticket->getUserId() === $this) {
-                $ticket->setUserId(null);
+            if ($ticket->getUser() === $this) {
+                $ticket->setUser(null);
             }
         }
 
