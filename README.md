@@ -31,11 +31,10 @@ cd Bloc_studi_3
   - Installer les dépendances PHP <br/>
 
 composer install <br/>
-npm install
 
   - Configurer les variable d'environnement <br/>
   
-Crée un fichier .env.local
+Crée un fichier .env.local ou modifier le fichier .env pour correspondre à vos attentes
   - Crée la base de données <br/>
   
 symfony console doctrine:database:create <br/>
