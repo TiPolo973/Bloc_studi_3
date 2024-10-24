@@ -10,7 +10,7 @@
 	{% for user in users %}
 		<div>
 			<p>Id :
-				{{ user.Id }}</p>
+				{{ user.id }}</p>
 			<p>Email :
 				{{ user.email }}</p>
 			<p>Prénom :
@@ -20,7 +20,7 @@
             {# <p>Roles :
 				{{ user.Roles }}</p> #}
             <form method="post" action="{{ path('admin_delete_user', {'id': user.id}) }}">
-                <button class="btn btn-danger">Supprimer</button>
+                <button >Supprimer</button>
             </form>
 			<p>---------------------------------</p>
 		</div>
