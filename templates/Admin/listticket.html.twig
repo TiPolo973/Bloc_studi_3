@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+{% include 'Message/addflash.html.twig' %}
 {% if tickets is not empty %}
 Liste des tickets disponible:
 <br/>
 {% for ticket in tickets %}
-    {{ loop.index }}.titre : {{ticket.offer.title}} quantiter:{{ticket.quantity}} prix: {{ ticket.price }}  <br>
+    {{ loop.index }}.titre : {{ticket.offer.title}} quantiter:{{ticket.quantity}} prix: {{ ticket.price }}  <form method='post' action="{{path('ticket_delete', {'id':ticket.id})}}" ><button>supprimer ce ticket</button></form> <br>
     {# <form method='post' action="{{path('admin_add_ticket ', {'id':user.id})}}" >
     <button>acheter ce ticket</button>
     </form> #}

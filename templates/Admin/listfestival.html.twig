@@ -2,11 +2,13 @@
 
 {% block body %}
 
+{% include 'Message/addflash.html.twig' %}
+
 {% if offers is not empty %}
 Liste des festival disponible:
 <br/>
 {% for offer in offers %}
-    {{ loop.index }}. Titre: {{ offer.title }}  Lieu: {{ offer.location }}  <br>
+    {{ loop.index }}. Titre: {{ offer.title }}  Lieu: {{ offer.location }} 	
     <p>--------------------------------------------</p>
 {% endfor %}
 {% else %}
