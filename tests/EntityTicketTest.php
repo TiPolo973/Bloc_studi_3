@@ -23,7 +23,9 @@ class EntityTicketTest extends TestCase{
             ->setUser($user)
             ->setCreatedAt($createAt)
             ->setUpdatedAt($updateAt)
-            ->setOffer($offer);
+            ->setOffer($offer)
+            ->setTicketKey('test');
+
 
         $this->assertEmpty($ticket->getId());
         $this->assertEquals(21, $ticket->getPrice());
@@ -34,6 +36,8 @@ class EntityTicketTest extends TestCase{
         $this->assertEquals($createAt, $ticket->getCreatedAt());
         $this->assertEquals($updateAt, $ticket->getUpdatedAt());
         $this->assertEquals($offer, $ticket->getOffer());
+        $this->assertEquals('test', $ticket->getTicketKey());
+
     }
     public function testCreatedAtAndUpdatedAt()
     {

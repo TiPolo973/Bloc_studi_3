@@ -20,7 +20,8 @@ class EntityUserTest extends TestCase{
             ->setFirstName('firstname')
             ->setLastName('lastname')
             ->setCreatedAt($createAt)
-            ->setUpdatedAt($updateAt);
+            ->setUpdatedAt($updateAt)
+            ->setUserKey('test');
     
         $this->assertNotNull($user->getId()); 
         $this->assertEquals('test@test.com', $user->getEmail());
@@ -31,6 +32,7 @@ class EntityUserTest extends TestCase{
         $this->assertEquals($createAt, $user->getCreatedAt());
         $this->assertEquals($updateAt, $user->getUpdatedAt());
         $this->assertEquals('test@test.com', $user->getUserIdentifier());
+        $this->assertEquals('test', $user->getUserKey());
 
         $user->addTicket($ticket);
         $this->assertCount(1, $user->getTickets());
