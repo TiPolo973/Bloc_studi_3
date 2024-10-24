@@ -8,7 +8,7 @@
 Liste des festival disponible:
 <br/>
 {% for offer in offers %}
-    {{ loop.index }}. Titre: {{ offer.title }}  Lieu: {{ offer.location }} 	
+    {{ loop.index }}. Titre: {{ offer.title }}  Lieu: {{ offer.location }} <form method='post' action="{{path('offer_delete', {'id':ticket.id})}}" ><button>supprimer cette offre</button></form> 	
     <p>--------------------------------------------</p>
 {% endfor %}
 {% else %}
