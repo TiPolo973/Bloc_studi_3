@@ -19,7 +19,7 @@ class TicketType extends AbstractType
             ->add('price')
             ->add('quantity')
             ->add('plan')
-            ->add('QRcode')
+            // ->add('QRcode')
             // ->add('createdAt', null, [
             //     'widget' => 'single_text',
             // ])

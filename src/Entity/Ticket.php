@@ -19,13 +19,16 @@ class Ticket
     #[ORM\Column]
     private ?int $price = null;
 
+    #[ORM\Column(type: 'string', name: 'ticket_key', nullable: true)] 
+    private ?string $ticket_key = null;    
+
     #[ORM\Column]
     private ?int $quantity = null;
 
     #[ORM\Column]
     private ?string $plan = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $QRcode = null;
     
     #[ORM\Column(type: 'datetime_immutable')]
@@ -59,6 +62,18 @@ class Ticket
     public function setPrice(int $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getTicketKey(): ?string
+    {
+        return $this->ticket_key;
+    }
+
+    public function setTicketKey(string $ticket_key): static
+    {
+         $this->ticket_key = $ticket_key;
 
         return $this;
     }

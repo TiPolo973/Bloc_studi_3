@@ -11,6 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
+// use Endroid\QrCode\Builder\Builder;
+// use Endroid\QrCode\Encoding\Encoding;
+// use Endroid\QrCode\ErrorCorrectionLevel;
+// use Endroid\QrCode\Label\LabelAlignment;
+// use Endroid\QrCode\Label\Font\OpenSans;
+// use Endroid\QrCode\RoundBlockSizeMode;
+// use Endroid\QrCode\Writer\PngWriter;
+
 
 
 
@@ -32,12 +40,12 @@ class PaymentController extends AbstractController
         if (!$session->isStarted()) {
             $session->start();
         }
-    
+
         $uniqueKey = bin2hex(random_bytes(16));
-    
+
         $session->set('payment_key', $uniqueKey);
-        
-        
+
+
         // dd($user);
         if (!$offer) {
             throw $this->createNotFoundException("Le ticket n'est associé à aucune offre.");
@@ -60,11 +68,10 @@ class PaymentController extends AbstractController
             'success_url' => $this->generateUrl('payment_success', ['id' => $ticketId], UrlGeneratorInterface::ABSOLUTE_URL),
             'cancel_url' => $this->generateUrl('payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL),
             'metadata' => [
-            'payment_key' => $uniqueKey,
-        ],
+                'payment_key' => $uniqueKey,
+            ],
         ]);
-        
-        // dd($uniqueKey);
+
         return $this->redirect($checkoutSession->url);
     }
 
@@ -72,27 +79,58 @@ class PaymentController extends AbstractController
     public function paymentSuccess(Request $request, EntityManagerInterface $em)
     {
         $session = $request->getSession();
-    if (!$session->isStarted()) {
-        $session->start();
-    }
+        if (!$session->isStarted()) {
+            $session->start();
+        }
 
-    $paymentKey = $session->get('payment_key');
-        
-       $user = $this->getUser();
-       
-       $ticketId = $request->query->get('id');
-       $ticket = $em->getRepository(Ticket::class)->find($ticketId);
+        $paymentKey = $session->get('payment_key');
+
+        $user = $this->getUser();
+
+
+
+        $ticketId = $request->query->get('id');
+        $ticket = $em->getRepository(Ticket::class)->find($ticketId);
 
         if ($ticket && $user && $paymentKey) {
-        $ticket->setUser($user);
-        $em->persist($ticket);
-        $em->flush();
-    } else {
-        throw $this->createNotFoundException("Une erreur s'est produite");
-    }
-    
-    $session->remove('payment_key');
-       
+            $ticket->setUser($user);
+            $ticket->setTicketKey($paymentKey);
+
+            // $user_idd = $request->query->get('id');
+            // $ticket = $em->getRepository(User::class)->find($user_idd);
+            // $user_key = $ticket->getUserKey();
+
+            // $builder = new Builder(
+            //     writer: new PngWriter(),
+            //     writerOptions: [],
+            //     validateResult: false,
+            //     data: "Payment Key: $paymentKey, User Key: $user_key",
+            //     encoding: new Encoding('UTF-8'),
+            //     errorCorrectionLevel: ErrorCorrectionLevel::High,
+            //     size: 300,
+            //     margin: 10,
+            //     roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            //     logoPath: __DIR__.'/assets/symfony.png',
+            //     logoResizeToWidth: 50,
+            //     logoPunchoutBackground: true,
+            //     labelText: 'This is the label',
+            //     labelFont: new OpenSans(20),
+            //     labelAlignment: LabelAlignment::Center
+            // );
+            
+            // $result = $builder->build();
+
+            // dd($result);
+
+
+            $em->persist($ticket);
+            $em->flush();
+        } else {
+            throw $this->createNotFoundException("Une erreur s'est produite");
+        }
+
+        $session->remove('payment_key');
+
 
         return $this->render('payment/success.html.twig');
     }

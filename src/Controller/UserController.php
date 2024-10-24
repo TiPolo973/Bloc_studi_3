@@ -49,7 +49,7 @@ class UserController extends AbstractController
         $userform = $this->createForm(UserType::class, $user);
         //Vérifie la request
         $userform->handleRequest($request);
-
+        
         $existingUser = $em->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
 
         if ($existingUser) {
@@ -62,6 +62,8 @@ class UserController extends AbstractController
 
         if ($userform->isSubmitted()) {
             if ($userform->isValid()) {
+                $uniqueKey = bin2hex(random_bytes(16));
+                $user->setUserKey($uniqueKey);
                 $user->setRoles(['ROLE_USER']);
                 $hash = $encoder->hashPassword($user, $user->getPassword());
                 $user->setPassword($hash);

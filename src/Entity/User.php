@@ -23,6 +23,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $email = null;
 
+    #[ORM\Column(type: 'string', name: 'user_key')] 
+    private ?string $user_key = null;
+
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
@@ -74,6 +77,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+  
+public function getUserKey(): ?string
+{
+    return $this->user_key;
+}
+
+public function setUserKey(string $user_key): static
+{
+    $this->user_key = $user_key;
+
+    return $this;
+}
 
     public function getUserIdentifier(): string
     {
